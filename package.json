@@ -16,6 +16,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"d3-array": "^3.2.4",
 		"d3-dsv": "^3.0.1"
 	}
 }
