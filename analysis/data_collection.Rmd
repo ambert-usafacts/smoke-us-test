@@ -1,0 +1,55 @@
+---
+title: "collection"
+author: "Amber Thomas"
+date: "2023-09-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+
+Load required libraries
+```{r}
+library(tidyverse)
+library(curl)
+```
+
+## Data
+All data is coming from the [EPA](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI) 
+```{r}
+# Function to download, unzip, and read data for a specific year
+get_data_for_year <- function(year) {
+  
+  # Generate the URL for the ZIP file
+  url <- paste0("https://aqs.epa.gov/aqsweb/airdata/daily_aqi_by_cbsa_", year, ".zip")
+  
+  # Download the ZIP file to a temporary file
+  tmp_zip <- tempfile(fileext = ".zip")
+  curl_download(url, tmp_zip)
+  
+  # Unzip the ZIP file to a temporary directory
+  tmp_dir <- tempdir()
+  unzip(tmp_zip, exdir = tmp_dir)
+  
+  # List CSV files in the temporary directory (assuming there's only one CSV file per ZIP)
+  csv_files <- list.files(tmp_dir, pattern = "*.csv", full.names = TRUE)
+  
+  # Read the CSV file into a data frame
+  df <- read_csv(csv_files[1])
+  
+  return(df)
+}
+```
+
+```{r}
+# Use map_df to loop through each year from 1980 to 2022, 
+# apply the function, and bind the data frames row-wise
+final_data <- map_df(1980:2022, get_data_for_year)
+
+# Save the final data to a local CSV file
+write_csv(final_data, "final_data.csv")
+```
+
