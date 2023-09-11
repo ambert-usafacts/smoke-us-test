@@ -1,5 +1,6 @@
 <script>
 	import SectionThisYear from "$lib/components/Section__thisYear.svelte";
+	import SectionIntro from "../lib/components/Section__intro.svelte";
 	export let data;
 
 	$: ({ city_data, cbsa } = data);
@@ -19,7 +20,6 @@
 	}));
 </script>
 
-<h1>Smoke in the United States</h1>
-<p>More prototype to come!</p>
+<SectionIntro />
 
 <SectionThisYear data={cleanedData} />
