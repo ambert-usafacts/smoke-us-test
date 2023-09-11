@@ -15,12 +15,12 @@ Load required libraries
 ```{r}
 library(tidyverse)
 library(curl)
+library(here)
 ```
 
 ## Data
 All data is coming from the [EPA](https://aqs.epa.gov/aqsweb/airdata/download_files.html#AQI) 
 ```{r}
-# Function to download, unzip, and read data for a specific year
 get_data_for_year <- function(year) {
   
   # Generate the URL for the ZIP file
@@ -30,8 +30,11 @@ get_data_for_year <- function(year) {
   tmp_zip <- tempfile(fileext = ".zip")
   curl_download(url, tmp_zip)
   
-  # Unzip the ZIP file to a temporary directory
-  tmp_dir <- tempdir()
+  # Create a new temporary directory
+  tmp_dir <- tempfile()
+  dir.create(tmp_dir)
+  
+  # Unzip the ZIP file to the new temporary directory
   unzip(tmp_zip, exdir = tmp_dir)
   
   # List CSV files in the temporary directory (assuming there's only one CSV file per ZIP)
@@ -45,11 +48,63 @@ get_data_for_year <- function(year) {
 ```
 
 ```{r}
+downloadCBSAboundaries <- function () {
+  # URL of the ZIP file
+  zip_url <- "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_Gaz_cbsa_national.zip"
+  
+  # Create a temporary file to store the downloaded ZIP file
+  temp_zip <- tempfile(fileext = ".zip")
+  
+  # Download the ZIP file
+  curl_download(zip_url, temp_zip)
+  
+  # Create a new temporary directory to unzip the file
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
+  
+  # Unzip the ZIP file to the temporary directory
+  unzip(temp_zip, exdir = temp_dir)
+  
+  # List CSV files in the temporary directory (assuming there's only one CSV file in the ZIP)
+  csv_files <- list.files(temp_dir, pattern = "*.txt", full.names = TRUE)
+  
+  # Read the CSV file into a data frame
+  cbsa_data <- read_delim(csv_files[1], delim = "\t")
+}
+```
+
+
+```{r message=FALSE}
 # Use map_df to loop through each year from 1980 to 2022, 
 # apply the function, and bind the data frames row-wise
 final_data <- map_df(1980:2022, get_data_for_year)
 
 # Save the final data to a local CSV file
 write_csv(final_data, "final_data.csv")
+
+cbsa_boundaries <- downloadCBSAboundaries()
 ```
+
+
+```{r}
+full_cities <- final_data %>% 
+  mutate(year = lubridate::year(Date)) %>% 
+  count(CBSA, year) %>% 
+  filter(n >= 365) %>% 
+  count(CBSA) %>% 
+  filter(n > 30)
+
+cities_to_keep <- full_cities$CBSA
+```
+
+```{r}
+cities_with_enough_data <- final_data %>% 
+  filter(CBSA %in% cities_to_keep) %>% 
+  filter(AQI >= 50) %>% 
+  mutate(year = lubridate::year(Date)) %>% 
+  count(`CBSA Code`, year)
+
+write_csv(cities_with_enough_data, "../static/cities_with_enough_data.csv")
+```
+
 
