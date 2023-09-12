@@ -2,10 +2,30 @@
 	import { index } from "d3-array";
 	import { location } from "../../stores";
 	import BarChart from "./charts/BarChart.svelte";
+	import { quantile } from "d3-array";
 
 	export let latestData;
 	export let allData;
 	export let index_of_selected;
+
+	$: smoke_days = latestData.map((d) => d.bad_air_days);
+
+	// Calculate quartile boundaries
+	$: q1 = quantile(smoke_days, 0.25);
+	$: q2 = quantile(smoke_days, 0.5);
+	$: q3 = quantile(smoke_days, 0.75);
+
+	const determineQuartile = (numberToCheck) => {
+		if (numberToCheck < q1) {
+			return "very low";
+		} else if (numberToCheck < q2) {
+			return "moderately low";
+		} else if (numberToCheck < q3) {
+			return "moderately high";
+		} else {
+			return "very high";
+		}
+	};
 </script>
 
 <section>
@@ -20,7 +40,12 @@
 		<p class="prose">
 			{latestData[index_of_selected].name} experienced {latestData[
 				index_of_selected
-			].bad_air_days} with bad air quality.
+			].bad_air_days} days with bad air quality in 2022.
+		</p>
+
+		<p class="prose">
+			This is {determineQuartile(latestData[index_of_selected].bad_air_days)} compared
+			to all other cities in our data.
 		</p>
 
 		<BarChart data={latestData} {index_of_selected} />
