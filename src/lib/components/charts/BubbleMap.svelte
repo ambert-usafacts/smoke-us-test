@@ -2,7 +2,7 @@
 	import { LayerCake, Svg, Canvas, Html } from "layercake";
 	import { feature } from "topojson-client";
 	import { geoAlbersUsa } from "d3-geo";
-	import { scaleQuantize, scaleSqrt } from "d3-scale";
+	import { scaleSqrt } from "d3-scale";
 	import Map from "./Map.canvas.svelte";
 	import MapPoints from "./MapPoints.svelte";
 	import Tooltip from "./Tooltip.svelte";
@@ -29,6 +29,11 @@
 		}))
 		.filter((d) => d.latitude)
 		.filter((d) => d.longitude);
+
+	$: fillFunction = (d) => {
+		if (d.code === $location.value) return "var(--primary)";
+		else return "var(--secondary)";
+	};
 </script>
 
 <div class="container">
@@ -50,6 +55,7 @@
 				{features}
 				fill="var(--secondary)"
 				stroke="var(--color-bg)"
+				{fillFunction}
 				on:mousemove={(event) => (evt = hideTooltip = event)}
 				on:mouseout={() => (hideTooltip = true)}
 				on:clickedPoint={(event) => {
@@ -59,9 +65,11 @@
 					$location = { value: props?.code, label: props?.name };
 				}}
 			/>
-
-			<BubbleMapAnnotations {features} />
 		</Svg>
+
+		<Html pointerEvents={false}>
+			<BubbleMapAnnotations {features} {projection} /></Html
+		>
 
 		<Html pointerEvents={false}>
 			{#if hideTooltip !== true}
@@ -70,11 +78,6 @@
 					{@const tooltipData = { ...detail.props }}
 					<p class="name">{tooltipData.name}</p>
 					<p class="days">{tooltipData.bad_air_days} bad air days</p>
-
-					<!-- {#each Object.entries(tooltipData) as [key, value]}
-                    {@const keyCapitalized = key.replace(/^\w/, (d) => d.toUpperCase())}
-                    <div class="row"><span>{keyCapitalized}:</span> {value}</div>
-                {/each} -->
 				</Tooltip>
 			{/if}
 		</Html>

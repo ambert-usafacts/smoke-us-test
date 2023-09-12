@@ -7,7 +7,7 @@
 	import { getContext, createEventDispatcher } from "svelte";
 	import { raise } from "layercake";
 
-	const { data, width, height, rScale, rGet, zGet, r } =
+	const { data, width, height, rScale, rGet, zGet, r, zScale } =
 		getContext("LayerCake");
 
 	/* --------------------------------------------
@@ -21,6 +21,8 @@
 
 	/** @type {String} [fill='yellow'] - The point's fill color. */
 	export let fill = "yellow";
+
+	export let fillFunction = (d) => d;
 
 	/** @type {String} [stroke='#000'] - The point's stroke color. */
 	export let stroke = "#000";
@@ -64,7 +66,7 @@
 					cx={coordinates[0]}
 					cy={coordinates[1]}
 					r={$rScale(Math.abs($r(d)))}
-					fill={fill || $zGet(d)}
+					fill={fillFunction(d)}
 					{stroke}
 					stroke-width={strokeWidth}
 					{opacity}
