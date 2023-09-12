@@ -17,9 +17,10 @@
 		year: +d.year,
 		bad_air_days: +d.n,
 		name: cbsa_lookup.get(d["CBSA Code"])?.name,
+		code: d["CBSA Code"],
 	}));
 </script>
 
-<SectionIntro />
+<SectionIntro data={cleanedData} />
 
 <SectionThisYear data={cleanedData} />

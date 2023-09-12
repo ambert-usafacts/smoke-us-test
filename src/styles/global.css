@@ -1,3 +1,7 @@
+@import 'variables.css';
+@import 'normalize.css';
+@import 'reset.css';
+
 section {
     max-width: 50rem;
     padding: 1rem;
@@ -10,4 +14,137 @@ h1 {
 
 h2 {
     font-size: 2rem;
+}
+
+
+
+:root {
+    /* font */
+    --sans: 'Source Sans Pro', sans-serif;
+    --serif: 'Source Serif Pro', serif;
+    --mono: monospace;
+
+    /* z-index */
+    --z-bottom: -100;
+    --z-middle: 0;
+    --z-top: 100;
+    --z-menu: 500;
+    --z-overlay: 1000;
+
+    /* default fonts */
+    --font-body: var(--sans);
+
+    --header-height: 5rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+
+@media screen and (max-width: 900px) {
+    :root {
+        --header-height: 3.5rem;
+    }
+}
+
+/* light mode */
+body {
+    --primary: var(--brand-blue);
+    --primary-rgb: 1, 81, 147;
+    --primary-transparent: rgba(var(--primary-rgb), 0.58);
+    --primary-hover: var(--primary-dark);
+    --secondary: var(--brand-magenta);
+    --secondary-transparent: rgba(227, 0, 125, 0.25);
+    --secondary-lighter: var(--secondary-light);
+    --gray-high-contrast: var(--gray-900);
+    --gray-text: #757575;
+    --gray-text-rgb: 117, 117, 117;
+    --gray-style: var(--gray-400);
+    --gray-border: var(--gray-300);
+    --gray-low-contrast: var(--gray-A100);
+    --color-bg: var(--color-white);
+    --bg-rgb: 255, 255, 255;
+    --bg-hover: rgba(1, 81, 147, 0.04);
+    --bg-step: rgba(255, 255, 255, 0.6);
+    --color-fg: var(--color-off-black);
+    --color-body-copy: var(--gray-800);
+    --fg-rgb: 0, 0, 0;
+    --republican-color: #d32f2f;
+    --democrat-color: #015193;
+    --independent-color: #00906e;
+    --other-party-color: #949494;
+    --menu-bg: var(--gray-100);
+
+    --highlighted-background: #FFF18F;
+    --highlighted-text: var(--color-body-copy);
+
+    /* default color values */
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+
+    --text-outline: -1px -1px 0 var(--color-bg), 1px -1px var(--color-bg), -1px 1px 0 var(--color-bg),
+        1px 1px 0 var(--color-bg);
+}
+
+/* dark mode */
+body.dark {
+    --primary: var(--brand-cyan);
+    --primary-rgb: 36, 158, 220;
+    --primary-transparent: rgba(var(--primary-rgb), 0.58);
+    --primary-hover: var(--primary);
+    --secondary: var(--secondary-light);
+    --secondary-rgb: 241, 166, 207;
+    --secondary-transparent: rgba(var(--secondary-rgb), 0.75);
+    --secondary-lighter: var(--secondary-light);
+    --gray-high-contrast: var(--gray-300);
+    --gray-low-contrast: var(--gray-800);
+    --gray-text: var(--gray-300);
+    --gray-text-rgb: 238, 238, 238;
+    --gray-style: var(--gray-700);
+    --gray-border: var(--gray-800);
+    --color-bg: var(--color-off-black);
+    --bg-rgb: 32, 32, 32;
+    --bg-hover: rgba(1, 81, 147, 0.04);
+    --color-fg: var(--color-white);
+    --color-body-copy: var(--color-fg);
+    --fg-rgb: 255, 255, 255;
+    --republican-color: #d5205e;
+    --democrat-color: #1571a9;
+    --independent-color: #00906e;
+    --other-party-color: #949494;
+    --menu-bg: #141414;
+
+    --highlighted-background: #FFF18F;
+    --highlighted-text: var(--gray-800);
+
+    /* default color values */
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-body);
+}
+
+/* transition theme switch */
+body * {
+    transition: background-color 0.1s ease-out;
+}
+
+button {
+    cursor: pointer;
+}
+
+.highlight {
+    background-color: var(--highlighted-background);
+    padding: 0.1rem 0.25rem;
+    color: var(--highlighted-text)
+}
+
+.prose {
+    max-width: var(--text-width);
+    font-size: var(--custom-font-size, 1.25rem);
+    /* default 20 px */
+    line-height: var(--custom-line-height, 2.1875rem);
+    /* default 35px */
+    color: var(--custom-color, var(--color-body-copy));
+    background-color: var(--custom-bg-color, transparent);
+    padding: var(--custom-padding, 0);
+    -webkit-font-smoothing: antialiased;
 }
