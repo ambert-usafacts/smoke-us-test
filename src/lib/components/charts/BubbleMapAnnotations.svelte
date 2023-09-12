@@ -11,9 +11,9 @@
 	$: best = features[features.length - 1];
 </script>
 
-<p class="worst" style:top="{$yGet(worst)}px" , style:left="{$xGet(worst)}px">
+<!-- <p class="worst" style:top="{$yGet(worst)}px" , style:left="{$xGet(worst)}px">
 	{worst.name}
-</p>
+</p> -->
 
 <style>
 	p {
