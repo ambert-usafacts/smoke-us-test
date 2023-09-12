@@ -37,7 +37,7 @@
 <SectionIntro data={latestData} />
 
 <SectionThisYear
-	data={cleanedData}
+	data={latestData}
 	{us_states}
 	{cbsa_lookup}
 	{index_of_selected}

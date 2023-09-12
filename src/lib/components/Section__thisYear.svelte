@@ -6,16 +6,9 @@
 	export let data;
 	export let us_states;
 	export let cbsa_lookup;
+	export let index_of_selected;
 
-	$: latestData = data
-		.filter((d) => d.year === 2022)
-		.sort((a, b) => descending(a.bad_air_days, b.bad_air_days));
-
-	$: splitData = latestData.slice(0, 10);
-
-	$: index_of_selected = latestData.findIndex(
-		(item) => item["CBSA Code"] === $location?.value
-	);
+	$: splitData = data.slice(0, 10);
 
 	const handle_location_click = (name, code) => {
 		$location = { value: code, label: name };
@@ -36,25 +29,23 @@
 	</ol>
 
 	<p class="prose">
-		In 2022 (our most recent year of data), <strong
-			>{latestData[0]?.name}</strong
-		>
+		In 2022 (our most recent year of data), <strong>{data[0]?.name}</strong>
 		was the smokiest city in the USA. If you were living in that area, you might
-		remember up to <strong>{latestData[0]?.bad_air_days}</strong> days of haze and
-		low air quality.
+		remember up to <strong>{data[0]?.bad_air_days}</strong> days of haze and low
+		air quality.
 	</p>
 
 	<p class="prose">
 		For comparison, <strong>{$location?.label}</strong> ranked number
 		<strong
 			>{index_of_selected + 1}
-			out of {latestData.length}</strong
+			out of {data.length}</strong
 		>
-		locations with <strong>{latestData[index_of_selected].bad_air_days}</strong>
+		locations with <strong>{data[index_of_selected].bad_air_days}</strong>
 		low air quality days in 2022.
 	</p>
 
-	<BubbleMap data={latestData} {us_states} {cbsa_lookup} />
+	<BubbleMap {data} {us_states} {cbsa_lookup} />
 </section>
 
 <style>
