@@ -7,6 +7,7 @@
 	import MapPoints from "./MapPoints.svelte";
 	import Tooltip from "./Tooltip.svelte";
 	import { location } from "../../../stores";
+	import BubbleMapAnnotations from "./BubbleMapAnnotations.svelte";
 
 	export let data;
 	export let us_states;
@@ -58,6 +59,8 @@
 					$location = { value: props?.code, label: props?.name };
 				}}
 			/>
+
+			<BubbleMapAnnotations {features} />
 		</Svg>
 
 		<Html pointerEvents={false}>
