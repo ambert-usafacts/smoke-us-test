@@ -83,6 +83,12 @@ final_data <- map_df(1980:2022, get_data_for_year)
 write_csv(final_data, "final_data.csv")
 
 cbsa_boundaries <- downloadCBSAboundaries()
+
+clean_cbsa <- cbsa_boundaries %>% 
+  rename(latitude = INTPTLAT, longitude = `INTPTLONG                                                                                                             `) %>% 
+  select(GEOID, NAME, latitude, longitude)
+
+write_csv(clean_cbsa, "../static/cbsa_boundaries.csv")
 ```
 
 

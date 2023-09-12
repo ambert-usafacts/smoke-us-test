@@ -1,7 +1,11 @@
 <script>
 	import { descending } from "d3-array";
 	import { location } from "../../stores.js";
+	import BubbleMap from "./charts/BubbleMap.svelte";
+
 	export let data;
+	export let us_states;
+	export let cbsa_lookup;
 
 	$: latestData = data
 		.filter((d) => d.year === 2022)
@@ -26,7 +30,7 @@
 				<span role="button" on:click={handle_location_click(name, code)}
 					>{name}</span
 				>
-				- {bad_air_days} smoky days
+				- {bad_air_days} days
 			</li>
 		{/each}
 	</ol>
@@ -49,13 +53,15 @@
 		locations with <strong>{latestData[index_of_selected].bad_air_days}</strong>
 		low air quality days in 2022.
 	</p>
+
+	<BubbleMap data={latestData} {us_states} {cbsa_lookup} />
 </section>
 
 <style>
 	ol {
 		display: flex;
 		flex-wrap: wrap;
-		max-height: 150px;
+		max-height: 170px;
 		flex-direction: column;
 		gap: 0.75rem 1rem;
 		padding-left: 0;
@@ -65,6 +71,7 @@
 
 	li {
 		flex-basis: calc(50% - 1rem);
+		font-size: 1.2rem;
 	}
 
 	span[role="button"] {
