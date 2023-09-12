@@ -1,0 +1,39 @@
+<script>
+	import { LayerCake, Svg, Html } from "layercake";
+	import { scaleBand } from "d3-scale";
+	import { location } from "../../../stores";
+
+	import Line from "./Line.svelte";
+	import AxisX from "./AxisX.svelte";
+	import AxisY from "./AxisY.svelte";
+
+	export let data;
+
+	const xKey = "year";
+	const yKey = "bad_air_days";
+</script>
+
+<div class="chart-container">
+	<LayerCake
+		padding={{ top: 0, right: 40, bottom: 20, left: 30 }}
+		x={xKey}
+		y={yKey}
+		xScale={scaleBand().paddingInner(0.02).round(true)}
+		yDomain={[0, null]}
+		{data}
+	>
+		<Svg>
+			<Line stroke="var(--secondary)" />
+			<AxisX gridlines={false} ticks={[1980, 2002, 2022]} baseline={true} />
+			<AxisY gridlines={false} baseline={true} />
+		</Svg>
+	</LayerCake>
+</div>
+
+<style>
+	.chart-container {
+		width: 100%;
+		height: 350px;
+		padding: 2rem 0;
+	}
+</style>

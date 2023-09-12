@@ -5,7 +5,7 @@
 <script>
 	import { getContext } from "svelte";
 
-	const { padding, xRange, yScale } = getContext("LayerCake");
+	const { padding, xRange, yScale, height } = getContext("LayerCake");
 
 	/** @type {Boolean} [gridlines=true] - Extend lines from the ticks into the chart space */
 	export let gridlines = true;
@@ -30,6 +30,8 @@
 
 	/** @type {Number} [dyTick=-4] - Any optional value passed to the `dy` attribute on the text marker and tick mark (if visible). This is ignored on the text marker if your scale is ordinal. */
 	export let dyTick = -4;
+
+	export let baseline = false;
 
 	/** @type {String} [textAnchor='start'] The CSS `text-anchor` passed to the label. This is automatically set to "end" if the scale has a bandwidth method, like in ordinal scales. */
 	export let textAnchor = "start";
@@ -79,23 +81,38 @@
 			>
 		</g>
 	{/each}
+	{#if baseline === true}
+		<line
+			class="baseline"
+			y1="0"
+			y2={$height}
+			x1={$padding.left}
+			x2={$padding.left}
+		/>
+	{/if}
 </g>
 
 <style>
 	.tick {
-		font-size: 0.725em;
-		font-weight: 200;
+		font-size: 0.85em;
+		font-weight: 400;
 	}
 
 	.tick line {
-		stroke: #aaa;
+		stroke: var(--gray-text);
 	}
 	.tick .gridline {
-		stroke-dasharray: 2;
+		stroke-dasharray: 0;
+	}
+
+	.baseline {
+		stroke-dasharray: 0;
+		stroke: rgba(var(--fg-rgb), 0.15);
+		stroke-width: 1px;
 	}
 
 	.tick text {
-		fill: #666;
+		fill: var(--gray-text);
 	}
 
 	.tick.tick-0 line {

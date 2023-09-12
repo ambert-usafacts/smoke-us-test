@@ -120,6 +120,10 @@
 	.baseline {
 		stroke-dasharray: 0;
 	}
+
+	.baseline {
+		stroke: rgba(var(--fg-rgb), 0.15);
+	}
 	/* This looks slightly better */
 	.axis.snapTicks .tick:last-child text {
 		transform: translateX(3px);

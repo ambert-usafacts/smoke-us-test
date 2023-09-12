@@ -2,13 +2,16 @@
 	import { index } from "d3-array";
 	import { location } from "../../stores";
 	import BarChart from "./charts/BarChart.svelte";
-	import { quantile } from "d3-array";
+	import LineChart from "./charts/LineChart.svelte";
+	import { quantile, ascending } from "d3-array";
 
 	export let latestData;
 	export let allData;
 	export let index_of_selected;
 
 	$: smoke_days = latestData.map((d) => d.bad_air_days);
+
+	let age = 10;
 
 	// Calculate quartile boundaries
 	$: q1 = quantile(smoke_days, 0.25);
@@ -26,6 +29,20 @@
 			return "very high";
 		}
 	};
+
+	$: one_city_data = allData.filter((d) => d.code === $location.value);
+
+	$: past_one_city = [...one_city_data].filter((d) => d.year === 2002)[0]
+		?.bad_air_days;
+	$: latest_one_city = [...one_city_data].sort((a, b) =>
+		ascending(a.year, b.year)
+	)[one_city_data.length - 1].bad_air_days;
+
+	$: highest_one_city = [...one_city_data].sort((a, b) =>
+		ascending(a.bad_air_days, b.bad_air_days)
+	)[one_city_data.length - 1];
+
+	// $: console.log({ highest_one_city });
 </script>
 
 <section>
@@ -42,15 +59,41 @@
 				index_of_selected
 			].bad_air_days} days with bad air quality in 2022.
 		</p>
-
-		<p class="prose">
-			This is {determineQuartile(latestData[index_of_selected].bad_air_days)} compared
-			to all other cities in our data.
-		</p>
+		<ul>
+			<li>
+				This is {determineQuartile(latestData[index_of_selected].bad_air_days)} compared
+				to all other cities in our data.
+			</li>
+		</ul>
 
 		<BarChart data={latestData} {index_of_selected} />
 	</div>
-	<div class="past block" />
+
+	<hr />
+	<div class="past block">
+		<h3 class="rail">2002</h3>
+		<p class="rail__context">When you were {age} years old</p>
+
+		<p class="prose">
+			<strong>{$location.label}</strong> experienced
+			<strong>{past_one_city} bad air quality days</strong>
+			when you were {age} years old.
+		</p>
+
+		<ul>
+			<li>
+				There are {past_one_city > latest_one_city ? "fewer" : "more"} smoky days
+				than there were in 2002.
+			</li>
+
+			<li>
+				The highest on record was in {highest_one_city.year} when there were {highest_one_city.bad_air_days}
+				smoky days reported.
+			</li>
+		</ul>
+
+		<LineChart data={one_city_data} />
+	</div>
 </section>
 
 <style>
@@ -95,5 +138,36 @@
 		position: absolute;
 		top: 1rem;
 		right: calc(100% + 2rem);
+	}
+
+	.rail__context {
+		width: max-content;
+		max-width: 150px;
+		text-align: right;
+		margin: 0;
+		position: absolute;
+		top: 4rem;
+		right: calc(100% + 2rem);
+		font-size: 1.25rem;
+	}
+
+	hr {
+		margin: 0.4rem 0;
+	}
+
+	ul {
+		display: flex;
+		flex-wrap: wrap;
+		max-height: 170px;
+		flex-direction: column;
+		gap: 0.75rem 1rem;
+		padding-left: 0;
+		list-style-position: inside;
+		margin-bottom: 3rem;
+	}
+
+	li {
+		flex-basis: calc(50% - 1rem);
+		font-size: 1.2rem;
 	}
 </style>
