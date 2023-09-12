@@ -28,8 +28,6 @@
 
 	$: if (selected === "") textInput = "";
 
-	$: console.log({ textInput });
-
 	const keysToIgnore = [
 		"Escape",
 		"ArrowUp",

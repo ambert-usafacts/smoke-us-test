@@ -13,14 +13,21 @@
 		(item) => item["CBSA Code"] === $location?.value
 	);
 
-	$: console.log({ latestData, index_of_selected });
+	const handle_location_click = (name, code) => {
+		$location = { value: code, label: name };
+	};
 </script>
 
 <section>
 	<h2>The 10 Smokiest Places in 2022</h2>
 	<ol>
-		{#each splitData as { name, bad_air_days }}
-			<li><span role="button">{name}</span> - {bad_air_days} smoky days</li>
+		{#each splitData as { name, code, bad_air_days }}
+			<li>
+				<span role="button" on:click={handle_location_click(name, code)}
+					>{name}</span
+				>
+				- {bad_air_days} smoky days
+			</li>
 		{/each}
 	</ol>
 
