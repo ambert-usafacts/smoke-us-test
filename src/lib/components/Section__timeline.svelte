@@ -49,9 +49,9 @@
 		ascending(a.bad_air_days, b.bad_air_days)
 	)[one_city_data.length - 1];
 
-	const age_array = range(10, 43, 1).map((d) => ({
+	const age_array = range(10, 53, 1).map((d) => ({
 		value: d,
-		label: d === 42 ? "42 or older" : d,
+		label: d === 52 ? "52 or older" : d,
 	}));
 </script>
 
@@ -59,15 +59,6 @@
 	<div class="contents">
 		<h2>Is this typical?</h2>
 		<p class="subtitle">You be the judge.</p>
-
-		<div class="age">
-			<Autocomplete
-				name="How old are you?"
-				data={age_array}
-				bind:selected={selected_age}
-				manualSelection={{ value: 30, label: 30 }}
-			/>
-		</div>
 	</div>
 
 	<div class="latest block">
@@ -91,12 +82,26 @@
 	<hr />
 	<div class="past block">
 		<h3 class="rail">{comparison_year}</h3>
-		<p class="rail__context">When you were {comparison_age} years old</p>
+		<p class="rail__context">
+			{selected_age
+				? `When you were ${comparison_age} years old`
+				: "20 years ago"}
+		</p>
+
+		<div class="age">
+			<Autocomplete
+				name="How old are you?"
+				data={age_array}
+				bind:selected={selected_age}
+			/>
+		</div>
 
 		<p class="prose">
 			<strong>{$location.label}</strong> experienced
 			<strong>{past_one_city} bad air quality days</strong>
-			when you were {comparison_age} years old.
+			{selected_age
+				? `when you were ${comparison_age} years old`
+				: "20 years ago"}.
 		</p>
 
 		<ul>
@@ -129,10 +134,6 @@
 		max-width: 50rem;
 		margin: 0 auto 3rem;
 		padding: 0 1rem;
-	}
-
-	.age {
-		margin-top: 2rem;
 	}
 
 	h2 {
