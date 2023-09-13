@@ -148,11 +148,35 @@
 	.block {
 		border-left: 1px solid var(--gray-style);
 		max-width: 50rem;
-		margin: 0 auto;
+		margin: auto;
 		padding: 1rem;
 		position: relative;
 	}
 
+	.block::before {
+		content: "";
+		position: absolute;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		top: 0;
+		left: 0;
+		background-color: var(--gray-style);
+		transform: translate(-50%, -50%);
+	}
+
+	/* Styles only for the first .square element among its siblings */
+	.latest::after {
+		content: "";
+		position: absolute;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		top: 0;
+		left: 0;
+		border: 2px solid var(--gray-style);
+		transform: translate(-50%, -50%);
+	}
 	.rail {
 		font-size: 2.5rem;
 		font-weight: bold;
@@ -175,7 +199,7 @@
 	}
 
 	hr {
-		margin: 0.4rem 0;
+		margin: 0.6rem 0 1rem;
 	}
 
 	ul {
