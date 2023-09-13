@@ -43,7 +43,7 @@
 		r="bad_air_days"
 		rScale={scaleSqrt().clamp(true)}
 		rRange={[1, 15]}
-		rDomain={[0, 365]}
+		rDomain={[0, 100]}
 	>
 		<Canvas>
 			<Map {projection} fill="#fff" />

@@ -26,6 +26,7 @@
 				manualSelection={$location}
 				inline={true}
 				fontSize="35"
+				updateLocation={true}
 			/>
 		</h1>
 	</div>

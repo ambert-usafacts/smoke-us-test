@@ -12,9 +12,11 @@
 	export let clearButton = true;
 	export let manualSelection = {}; // expects an object with structure {value: myValue, label: myLabel}
 	export let inline = false;
+
+	export let updateLocation;
 	// export let twoWayBinding = false;
 	let filteredData = data.sort((a, b) => ascending(a.label, b.label));
-	let uniqueID = Math.floor(Math.random() * 100);
+	let uniqueID = Math.floor(Math.random() * 10000);
 
 	let resultCount = filteredData.length;
 	let textInput = selected;
@@ -43,9 +45,10 @@
 	function handleKeyUp(event) {
 		if (!keysToIgnore.includes(event.key) && textInput && textInput.length) {
 			filteredData = data.filter((d) => {
-				console.log({ label: d.label });
-				// filter the data to include any where the label includes the text string typed so far
-				return d.label.toLowerCase().includes(textInput.toLowerCase());
+				// Convert d.label to string to ensure .toLowerCase() works
+				return String(d.label)
+					.toLowerCase()
+					.includes(String(textInput).toLowerCase());
 			});
 
 			// open the menu
@@ -86,7 +89,9 @@
 		menuOpen = false;
 		inputElement.focus();
 
-		$location = { value, label };
+		if (updateLocation) {
+			$location = { value, label };
+		}
 	}
 
 	function handleOptionKeydown(event, value, label) {

@@ -8,6 +8,7 @@
 	import AxisY from "./AxisY.svelte";
 
 	export let data;
+	export let comparison_year;
 
 	const xKey = "year";
 	const yKey = "bad_air_days";
@@ -24,7 +25,11 @@
 	>
 		<Svg>
 			<Line stroke="var(--secondary)" />
-			<AxisX gridlines={false} ticks={[1980, 2002, 2022]} baseline={true} />
+			<AxisX
+				gridlines={false}
+				ticks={[1980, comparison_year, 2022]}
+				baseline={true}
+			/>
 			<AxisY gridlines={false} baseline={true} />
 		</Svg>
 	</LayerCake>

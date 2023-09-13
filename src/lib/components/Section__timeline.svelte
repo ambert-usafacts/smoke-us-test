@@ -3,7 +3,8 @@
 	import { location } from "../../stores";
 	import BarChart from "./charts/BarChart.svelte";
 	import LineChart from "./charts/LineChart.svelte";
-	import { quantile, ascending } from "d3-array";
+	import { quantile, ascending, range } from "d3-array";
+	import Autocomplete from "./ui/Autocomplete.svelte";
 
 	export let latestData;
 	export let allData;
@@ -11,7 +12,12 @@
 
 	$: smoke_days = latestData.map((d) => d.bad_air_days);
 
-	let age = 10;
+	let start_age = 30;
+	let comparison_age = 10;
+	let selected_age;
+	$: comparison_year = selected_age
+		? 2022 - selected_age + comparison_age
+		: 2022 - start_age + comparison_age;
 
 	// Calculate quartile boundaries
 	$: q1 = quantile(smoke_days, 0.25);
@@ -32,8 +38,9 @@
 
 	$: one_city_data = allData.filter((d) => d.code === $location.value);
 
-	$: past_one_city = [...one_city_data].filter((d) => d.year === 2002)[0]
-		?.bad_air_days;
+	$: past_one_city = [...one_city_data].filter(
+		(d) => d.year === comparison_year
+	)[0]?.bad_air_days;
 	$: latest_one_city = [...one_city_data].sort((a, b) =>
 		ascending(a.year, b.year)
 	)[one_city_data.length - 1].bad_air_days;
@@ -42,13 +49,25 @@
 		ascending(a.bad_air_days, b.bad_air_days)
 	)[one_city_data.length - 1];
 
-	// $: console.log({ highest_one_city });
+	const age_array = range(10, 43, 1).map((d) => ({
+		value: d,
+		label: d === 42 ? "42 or older" : d,
+	}));
 </script>
 
 <section>
 	<div class="contents">
 		<h2>Is this typical?</h2>
 		<p class="subtitle">You be the judge.</p>
+
+		<div class="age">
+			<Autocomplete
+				name="How old are you?"
+				data={age_array}
+				bind:selected={selected_age}
+				manualSelection={{ value: 30, label: 30 }}
+			/>
+		</div>
 	</div>
 
 	<div class="latest block">
@@ -71,19 +90,19 @@
 
 	<hr />
 	<div class="past block">
-		<h3 class="rail">2002</h3>
-		<p class="rail__context">When you were {age} years old</p>
+		<h3 class="rail">{comparison_year}</h3>
+		<p class="rail__context">When you were {comparison_age} years old</p>
 
 		<p class="prose">
 			<strong>{$location.label}</strong> experienced
 			<strong>{past_one_city} bad air quality days</strong>
-			when you were {age} years old.
+			when you were {comparison_age} years old.
 		</p>
 
 		<ul>
 			<li>
 				There are {past_one_city > latest_one_city ? "fewer" : "more"} smoky days
-				than there were in 2002.
+				than there were in {comparison_year}.
 			</li>
 
 			<li>
@@ -92,7 +111,7 @@
 			</li>
 		</ul>
 
-		<LineChart data={one_city_data} />
+		<LineChart data={one_city_data} {comparison_year} />
 	</div>
 </section>
 
