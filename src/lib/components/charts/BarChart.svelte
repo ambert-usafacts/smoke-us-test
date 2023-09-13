@@ -47,7 +47,7 @@
 <style>
 	.chart-container {
 		width: 100%;
-		aspect-ratio: 3/2;
+		aspect-ratio: 5/2;
 		padding: 2rem 0;
 	}
 </style>
