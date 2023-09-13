@@ -10,6 +10,8 @@
 	/** @type {String} [stroke='#ab00d6'] - The shape's fill color. This is technically optional because it comes with a default value but you'll likely want to replace it with your own color. */
 	export let stroke = "#ab00d6";
 
+	export let opacity = 1;
+
 	$: path =
 		"M" +
 		$data
@@ -19,7 +21,7 @@
 			.join("L");
 </script>
 
-<path class="path-line" d={path} {stroke} />
+<path class="path-line" d={path} {stroke} {opacity} />
 
 <style>
 	.path-line {

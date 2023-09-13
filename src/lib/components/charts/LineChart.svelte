@@ -6,6 +6,8 @@
 	import Line from "./Line.svelte";
 	import AxisX from "./AxisX.svelte";
 	import AxisY from "./AxisY.svelte";
+	import LineChartDots from "./LineChartDots.svelte";
+	import LineGradient from "./LineGradient.svelte";
 
 	export let data;
 	export let comparison_year;
@@ -24,7 +26,16 @@
 		{data}
 	>
 		<Svg>
-			<Line stroke="var(--secondary)" />
+			<LineGradient
+				yearOfInterest={comparison_year}
+				accentColor="var(--secondary)"
+			/>
+			<Line stroke="url(#line-gradient)" />
+			<LineChartDots
+				fill="var(--secondary)"
+				stroke="var(--secondary)"
+				{comparison_year}
+			/>
 			<AxisX
 				gridlines={false}
 				ticks={[1980, comparison_year, 2022]}
