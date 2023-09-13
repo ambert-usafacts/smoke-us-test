@@ -13,7 +13,11 @@
 	$: cbsa_lookup = new Map(
 		cbsa.map((d) => [
 			d.GEOID,
-			{ name: d.NAME, latitude: +d.latitude, longitude: +d.longitude },
+			{
+				name: d.NAME.replace(" Metro Area", ""),
+				latitude: +d.latitude,
+				longitude: +d.longitude,
+			},
 		])
 	);
 

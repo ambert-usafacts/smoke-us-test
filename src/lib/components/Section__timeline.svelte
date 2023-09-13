@@ -102,7 +102,7 @@
 		<ul>
 			<li>
 				There are {past_one_city > latest_one_city ? "fewer" : "more"} smoky days
-				than there were in {comparison_year}.
+				now than there were in {comparison_year}.
 			</li>
 
 			<li>
@@ -127,8 +127,12 @@
 
 	.contents {
 		max-width: 50rem;
-		margin: 0 auto;
+		margin: 0 auto 3rem;
 		padding: 0 1rem;
+	}
+
+	.age {
+		margin-top: 2rem;
 	}
 
 	h2 {
@@ -188,5 +192,19 @@
 	li {
 		flex-basis: calc(50% - 1rem);
 		font-size: 1.2rem;
+	}
+
+	@media screen and (max-width: 1100px) {
+		.rail,
+		.rail__context {
+			position: relative;
+			right: auto;
+			top: auto;
+		}
+
+		.rail__context {
+			text-align: left;
+			max-width: 100%;
+		}
 	}
 </style>

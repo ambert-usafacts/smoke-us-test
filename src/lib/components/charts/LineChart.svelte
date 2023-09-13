@@ -49,7 +49,7 @@
 <style>
 	.chart-container {
 		width: 100%;
-		height: 350px;
+		aspect-ratio: 3/2;
 		padding: 2rem 0;
 	}
 </style>
