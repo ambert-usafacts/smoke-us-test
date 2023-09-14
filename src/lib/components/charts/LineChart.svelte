@@ -41,7 +41,7 @@
 	>
 		<Svg>
 			<AxisX gridlines={false} ticks={x_ticks} baseline={true} />
-			<AxisY gridlines={false} baseline={true} ticks={1} />
+			<AxisY gridlines={false} baseline={true} ticks={5} />
 			<LineGradient
 				yearOfInterest={comparison_year}
 				accentColor="var(--secondary)"
@@ -52,7 +52,6 @@
 				stroke="var(--secondary)"
 				{comparison_year}
 			/>
-			<LineChartAnnotationAxes {comparison_age} />
 		</Svg>
 
 		<Html>

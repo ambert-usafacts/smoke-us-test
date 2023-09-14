@@ -23,12 +23,12 @@
 </script>
 
 {#each circle_data as year, i}
-	<!-- <text x={$xGet(year)} y={$yGet(year) - 16} class="bg"
+	<text x={$xGet(year)} y={$yGet(year) - 16} class="bg"
 		>{year?.bad_air_days}{i !== 0 ? "days" : ""}</text
 	>
 	<text x={$xGet(year)} y={$yGet(year) - 16}
 		>{year?.bad_air_days}{i !== 0 ? " days" : ""}</text
-	> -->
+	>
 	<circle r="6" {fill} cx={$xGet(year)} cy={$yGet(year)} />
 {/each}
 

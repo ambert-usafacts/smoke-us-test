@@ -194,7 +194,7 @@
 		width: max-content;
 		max-width: 150px;
 		text-align: right;
-		margin: 0;
+		margin: 0 0 2rem 0;
 		position: absolute;
 		top: 4rem;
 		right: calc(100% + 2rem);
