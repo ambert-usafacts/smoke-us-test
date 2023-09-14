@@ -3,7 +3,7 @@
 	// Adam Silver https://adamsilver.io/blog/building-an-accessible-autocomplete-control/
 	import { ascending } from "d3-array";
 	import Close from "svelte-material-icons/Close.svelte";
-	import { location } from "../../../stores";
+	import { location, selected_age } from "../../../stores";
 
 	export let data;
 	export let name;
@@ -13,7 +13,8 @@
 	export let manualSelection = {}; // expects an object with structure {value: myValue, label: myLabel}
 	export let inline = false;
 
-	export let updateLocation;
+	export let updateLocation = false;
+	export let updateAge = false;
 	// export let twoWayBinding = false;
 	let filteredData = data.sort((a, b) => ascending(a.label, b.label));
 	let uniqueID = Math.floor(Math.random() * 10000);
@@ -91,6 +92,10 @@
 
 		if (updateLocation) {
 			$location = { value, label };
+		}
+
+		if (updateAge) {
+			$selected_age = value;
 		}
 	}
 

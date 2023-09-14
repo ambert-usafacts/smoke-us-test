@@ -1,6 +1,7 @@
 <script>
 	import { getContext } from "svelte";
 	import { extent } from "d3-array";
+	import { hovered_year } from "../../../stores";
 
 	const { data, xGet, yGet, xScale, yScale, x, zGet, zScale, height } =
 		getContext("LayerCake");
@@ -12,7 +13,9 @@
 
 	$: yearCount = extentYears[1] - extentYears[0];
 
-	$: percentYearOfInterest = (yearOfInterest - extentYears[0]) / yearCount;
+	$: updatedYear = $hovered_year ? $hovered_year : yearOfInterest;
+
+	$: percentYearOfInterest = (updatedYear - extentYears[0]) / yearCount;
 </script>
 
 <defs>

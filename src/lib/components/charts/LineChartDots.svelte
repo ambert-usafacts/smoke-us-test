@@ -4,6 +4,7 @@
  -->
 <script>
 	import { getContext } from "svelte";
+	import { hovered_year } from "../../../stores";
 
 	const { data, xGet, yGet, xScale } = getContext("LayerCake");
 
@@ -14,19 +15,21 @@
 
 	export let stroke = "#ab00d6";
 
-	$: years = [comparison_year, 2022];
+	$: updated_year = $hovered_year ? $hovered_year : comparison_year;
+
+	$: years = [updated_year, 2022];
 
 	$: circle_data = $data.filter((d) => years.includes(d.year));
 </script>
 
 {#each circle_data as year, i}
-	<text x={$xGet(year)} y={$yGet(year) - 16} class="bg"
+	<!-- <text x={$xGet(year)} y={$yGet(year) - 16} class="bg"
 		>{year?.bad_air_days}{i !== 0 ? "days" : ""}</text
 	>
 	<text x={$xGet(year)} y={$yGet(year) - 16}
 		>{year?.bad_air_days}{i !== 0 ? " days" : ""}</text
-	>
-	<circle r="8" {fill} cx={$xGet(year)} cy={$yGet(year)} />
+	> -->
+	<circle r="6" {fill} cx={$xGet(year)} cy={$yGet(year)} />
 {/each}
 
 <style>

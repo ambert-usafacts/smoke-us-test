@@ -2,21 +2,30 @@
 	import { LayerCake, Svg, Html } from "layercake";
 	import { scaleBand } from "d3-scale";
 	import QuadTree from "./QuadTree.svelte";
-	import { location } from "../../../stores";
+	import { location, hovered_year } from "../../../stores";
+	import { max } from "d3-array";
 
 	import Line from "./Line.svelte";
 	import AxisX from "./AxisX.svelte";
 	import AxisY from "./AxisY.svelte";
 	import LineChartDots from "./LineChartDots.svelte";
 	import LineGradient from "./LineGradient.svelte";
+	import LineChartAnnotationAxes from "./LineChartAnnotationAxes.svelte";
 
 	export let data;
 	export let comparison_year;
+	export let comparison_age;
+
+	$: updated_year = $hovered_year ? $hovered_year : comparison_year;
 
 	const xKey = "year";
 	const yKey = "bad_air_days";
 
 	const padding = 6;
+
+	$: max_y = max(data.map((d) => d[yKey]));
+
+	$: x_ticks = [...new Set([1980, updated_year, 2022])];
 </script>
 
 <div class="chart-container">
@@ -31,6 +40,8 @@
 		padding={{ top: 0, right: 5, bottom: 20, left: 25 }}
 	>
 		<Svg>
+			<AxisX gridlines={false} ticks={x_ticks} baseline={true} />
+			<AxisY gridlines={false} baseline={true} ticks={1} />
 			<LineGradient
 				yearOfInterest={comparison_year}
 				accentColor="var(--secondary)"
@@ -41,12 +52,7 @@
 				stroke="var(--secondary)"
 				{comparison_year}
 			/>
-			<AxisX
-				gridlines={false}
-				ticks={[1980, comparison_year, 2022]}
-				baseline={true}
-			/>
-			<AxisY gridlines={false} baseline={true} />
+			<LineChartAnnotationAxes {comparison_age} />
 		</Svg>
 
 		<Html>
@@ -55,21 +61,6 @@
 					class="circle"
 					style="top:{y}px;left:{x}px;display: {visible ? 'block' : 'none'};"
 				/>
-				<p
-					class="label"
-					style:top="{y}px"
-					style:left="{x}px"
-					style:display={visible ? "block" : "none"}
-				>
-					{found.bad_air_days}
-				</p>
-				<p
-					class="year"
-					style:left="{x}px"
-					style:display={visible ? "block" : "none"}
-				>
-					{found.year}
-				</p>
 			</QuadTree>
 		</Html>
 	</LayerCake>
@@ -85,11 +76,11 @@
 	.circle {
 		position: absolute;
 		border-radius: 50%;
-		background-color: rgba(171, 0, 214);
+		background-color: var(--secondary);
 		transform: translate(-50%, -50%);
 		pointer-events: none;
-		width: 10px;
-		height: 10px;
+		width: 12px;
+		height: 12px;
 	}
 
 	.label {

@@ -7,8 +7,9 @@
 <script>
 	import { getContext } from "svelte";
 	import { quadtree } from "d3-quadtree";
+	import { hovered_year } from "../../../stores";
 
-	const { data, xGet, yGet, width, height } = getContext("LayerCake");
+	const { data, xGet, yGet, width, height, padding } = getContext("LayerCake");
 
 	let visible = false;
 	let found = {};
@@ -21,7 +22,7 @@
 	export let y = "y";
 
 	/** @type {String} [searchRadius] – The number of pixels to search around the mouse's location. This is the third argument passed to [`quadtree.find`](https://github.com/d3/d3-quadtree#quadtree_find) and by default a value of `undefined` means an unlimited range. */
-	export let searchRadius = undefined;
+	export let searchRadius = 200;
 
 	/** @type {Array} [dataset] – The dataset to work off of—defaults to $data if left unset. You can pass override the default here in here in case you don't want to use the main data or it's in a strange format. */
 	export let dataset = undefined;
@@ -36,7 +37,10 @@
 		const yLayerKey = `layer${y.toUpperCase()}`;
 
 		found = finder.find(evt[xLayerKey], evt[yLayerKey], searchRadius) || {};
+
 		visible = Object.keys(found).length > 0;
+
+		$hovered_year = found?.year || "";
 	}
 
 	$: finder = quadtree()
@@ -53,7 +57,10 @@
 <div
 	class="bg"
 	on:mousemove={findItem}
-	on:mouseout={() => (visible = false)}
+	on:mouseout={() => {
+		visible = false;
+		$hovered_year = "";
+	}}
 	on:blur={() => (visible = false)}
 />
 <slot x={xGetter(found) || 0} y={yGetter(found) || 0} {found} {visible} {e} />

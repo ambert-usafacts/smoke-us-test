@@ -1,6 +1,6 @@
 <script>
 	import { index } from "d3-array";
-	import { location } from "../../stores";
+	import { location, selected_age } from "../../stores";
 	import BarChart from "./charts/BarChart.svelte";
 	import LineChart from "./charts/LineChart.svelte";
 	import { quantile, ascending, range } from "d3-array";
@@ -14,9 +14,8 @@
 
 	let start_age = 30;
 	let comparison_age = 10;
-	let selected_age;
-	$: comparison_year = selected_age
-		? 2022 - selected_age + comparison_age
+	$: comparison_year = $selected_age
+		? 2022 - $selected_age + comparison_age
 		: 2022 - start_age + comparison_age;
 
 	// Calculate quartile boundaries
@@ -53,6 +52,8 @@
 		value: d,
 		label: d === 52 ? "52 or older" : d,
 	}));
+
+	let selected;
 </script>
 
 <section>
@@ -92,7 +93,8 @@
 			<Autocomplete
 				name="How old are you?"
 				data={age_array}
-				bind:selected={selected_age}
+				bind:selected
+				updateAge={true}
 			/>
 		</div>
 
@@ -116,7 +118,7 @@
 			</li>
 		</ul>
 
-		<LineChart data={one_city_data} {comparison_year} />
+		<LineChart data={one_city_data} {comparison_year} {comparison_age} />
 	</div>
 </section>
 
