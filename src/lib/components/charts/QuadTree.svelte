@@ -12,7 +12,7 @@
 	const { data, xGet, yGet, width, height, padding } = getContext("LayerCake");
 
 	let visible = false;
-	let found = {};
+
 	let e = {};
 
 	/** @type {String} [x='x'] – The dimension to search across when moving the mouse left and right. */
@@ -27,6 +27,10 @@
 	/** @type {Array} [dataset] – The dataset to work off of—defaults to $data if left unset. You can pass override the default here in here in case you don't want to use the main data or it's in a strange format. */
 	export let dataset = undefined;
 
+	export let saveYear = false;
+
+	export let found = {};
+
 	$: xGetter = x === "x" ? $xGet : $yGet;
 	$: yGetter = y === "y" ? $yGet : $xGet;
 
@@ -40,7 +44,7 @@
 
 		visible = Object.keys(found).length > 0;
 
-		$hovered_year = found?.year || "";
+		if (saveYear) $hovered_year = found?.year || "";
 	}
 
 	$: finder = quadtree()
@@ -59,7 +63,8 @@
 	on:mousemove={findItem}
 	on:mouseout={() => {
 		visible = false;
-		$hovered_year = "";
+		found = {};
+		if (saveYear) $hovered_year = "";
 	}}
 	on:blur={() => (visible = false)}
 />

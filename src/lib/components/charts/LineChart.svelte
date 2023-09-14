@@ -55,7 +55,7 @@
 		</Svg>
 
 		<Html>
-			<QuadTree let:x let:y let:visible let:found>
+			<QuadTree let:x let:y let:visible let:found saveYear={true}>
 				<div
 					class="circle"
 					style="top:{y}px;left:{x}px;display: {visible ? 'block' : 'none'};"
