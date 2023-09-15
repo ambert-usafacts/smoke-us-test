@@ -108,13 +108,13 @@
 
 		<ul>
 			<li>
-				There are {past_one_city > latest_one_city ? "fewer" : "more"} smoky days
-				now than there were in {comparison_year}.
+				There are {past_one_city > latest_one_city ? "fewer" : "more"} poor air quality
+				days now than there were in {comparison_year}.
 			</li>
 
 			<li>
 				The highest on record was in {highest_one_city.year} when there were {highest_one_city.bad_air_days}
-				smoky days reported.
+				poor air quality days reported.
 			</li>
 		</ul>
 

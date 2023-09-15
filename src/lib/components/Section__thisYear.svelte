@@ -16,7 +16,7 @@
 </script>
 
 <section>
-	<h2>The 10 Smokiest Places in 2022</h2>
+	<h2>The 10 Places with the Most Poor Air Quality Days in 2022</h2>
 	<ol>
 		{#each splitData as { name, code, bad_air_days }}
 			<li>
@@ -30,9 +30,9 @@
 
 	<p class="prose">
 		In 2022 (our most recent year of data), <strong>{data[0]?.name}</strong>
-		was the smokiest city in the USA. If you were living in that area, you might
-		remember up to <strong>{data[0]?.bad_air_days}</strong> days of haze and low
-		air quality.
+		was the city with the most days with poor air quality in the USA. If you were
+		living in that area, you might remember up to
+		<strong>{data[0]?.bad_air_days}</strong> days of haze and low air quality.
 	</p>
 
 	<p class="prose">

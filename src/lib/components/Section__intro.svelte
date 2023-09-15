@@ -19,7 +19,7 @@
 <section>
 	<div class="inline">
 		<h1>
-			Smoke in <Autocomplete
+			Air Quality in <Autocomplete
 				data={city_options}
 				bind:selected
 				name="select a location"
@@ -33,14 +33,13 @@
 
 	<p class="prose">
 		We experience above and below-seasonal variation in the weather every year.
-		Fire smoke is no exception. This year we’ve seen stunning images from
-		coast-to-coast during an active fire season in the USA and Canada. Is this
-		typical? Or is this year different.
+		Changes in air quality are no exception. Is this typical? Or is this year
+		different.
 	</p>
 
 	<p class="prose">
-		Using data from the government agencies that have this data we can look at
-		the number of days with smoke in cities across the country to better
+		Using data from the Environmental Protection Agency, we can look at the
+		number of days with poor air quality in cities across the country to better
 		understand our own experiences.
 	</p>
 </section>
