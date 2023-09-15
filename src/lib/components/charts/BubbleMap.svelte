@@ -3,6 +3,7 @@
 	import { feature } from "topojson-client";
 	import { geoAlbersUsa } from "d3-geo";
 	import { scaleSqrt } from "d3-scale";
+	import { extent } from "d3-array";
 	import Map from "./Map.canvas.svelte";
 	import MapPoints from "./MapPoints.svelte";
 	import Tooltip from "./Tooltip.svelte";
@@ -30,8 +31,11 @@
 		.filter((d) => d.latitude)
 		.filter((d) => d.longitude);
 
+	$: worst = data[0];
+
 	$: fillFunction = (d) => {
 		if (d.code === $location.value) return "var(--primary)";
+		else if (d.code === worst.code) return "var(--secondary-lighter)";
 		else return "var(--secondary)";
 	};
 </script>
@@ -86,8 +90,9 @@
 
 <style>
 	.container {
-		height: 500px;
+		aspect-ratio: 1.5;
 		width: 100%;
+		margin-top: 2rem;
 	}
 
 	.name {

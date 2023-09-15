@@ -8,6 +8,7 @@
 	import AxisY from "./AxisY.svelte";
 	import QuadTree from "./QuadTree.svelte";
 	import BarChartAnnotations from "./BarChartAnnotations.svelte";
+	import PointInverter from "./PointInverter.svelte";
 
 	export let data;
 	export let index_of_selected;
@@ -45,10 +46,10 @@
 
 <div class="chart-container">
 	<LayerCake
-		padding={{ top: 0, right: 40, bottom: 20, left: 30 }}
+		padding={{ top: 0, right: 0, bottom: 20, left: 0 }}
 		x={xKey}
 		y={yKey}
-		xScale={scaleBand().paddingInner(0.02).round(true)}
+		xScale={scaleBand().paddingInner(0.01)}
 		yDomain={[0, null]}
 		{data}
 		xReverse={true}
@@ -60,7 +61,8 @@
 
 		<Html>
 			<BarChartAnnotations {found} />
-			<QuadTree let:x let:y let:visible bind:found />
+			<PointInverter bind:found />
+			<!-- <QuadTree let:x let:y let:visible bind:found /> -->
 		</Html>
 	</LayerCake>
 </div>
@@ -68,7 +70,7 @@
 <style>
 	.chart-container {
 		width: 100%;
-		aspect-ratio: 5/2;
+		aspect-ratio: 1.5;
 		padding: 2rem 0;
 	}
 

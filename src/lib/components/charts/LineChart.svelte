@@ -68,7 +68,7 @@
 <style>
 	.chart-container {
 		width: 100%;
-		aspect-ratio: 5/2;
+		aspect-ratio: 2/1;
 		padding: 2rem 0;
 	}
 

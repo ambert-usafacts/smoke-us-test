@@ -6,7 +6,7 @@
 	export let features;
 	export let projection;
 
-	const PADDING = 25;
+	const PADDING = 8;
 
 	$: projectionFn = projection().fitSize([$width, $height], $data);
 
@@ -28,20 +28,21 @@
 	{worst.name}
 </p>
 
-<p
+<!-- <p
 	class="best"
 	style:top="{best_location[1]}px"
 	style:left="{best_location[0]}px"
 >
 	<strong>The Best:</strong>
 	{best.name}
-</p>
+</p> -->
 
 <style>
 	p {
 		position: absolute;
 		max-width: 150px;
-		text-align: left;
+		text-align: center;
 		text-shadow: var(--text-outline);
+		transform: translateX(-50%);
 	}
 </style>
