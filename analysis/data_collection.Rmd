@@ -106,7 +106,7 @@ cities_to_keep <- full_cities$CBSA
 ```{r}
 cities_with_enough_data <- final_data %>% 
   filter(CBSA %in% cities_to_keep) %>% 
-  filter(AQI >= 50) %>% 
+  filter(AQI >= 100) %>% # above 100 is unhealthy for sensitive groups 
   mutate(year = lubridate::year(Date)) %>% 
   count(`CBSA Code`, year)
 
